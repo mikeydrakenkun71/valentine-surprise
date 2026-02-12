@@ -1,336 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Valentine Surprise 💜</title>
-  <link href="https://fonts.googleapis.com/css2?family=Aphrodite+Pro&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background: linear-gradient(135deg, #E6E0F8, #F3E8FF);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: 'Aphrodite Pro', cursive;
-      color: #4B0082; 
-      text-align: center;
-      overflow: hidden;
-      position: relative;
-    }
+<meta charset="UTF-8">
+<title>Valentine Surprise 💜</title>
 
-    h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
-      transition: opacity 0.5s ease;
-    }
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#E6E0F8,#F3E8FF);
+  font-family:cursive;
+  color:#4B0082;
+  overflow:hidden;
+  text-align:center;
+}
 
-    button {
-      background-color: #D8BFD8;
-      color: #4B0082;
-      border: none;
-      padding: 15px 30px;
-      font-size: 1.2em;
-      border-radius: 12px;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(75,0,130,0.3);
-      transition: all 0.2s ease;
-    }
+/* ---------- GENERAL ---------- */
+button{
+  background:#D8BFD8;
+  border:none;
+  padding:14px 24px;
+  border-radius:14px;
+  font-size:1.1em;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,.2);
+  transition:.3s;
+}
+button:hover{transform:scale(1.05);}
 
-    button:hover {
-      background-color: #C8A2C8;
-      transform: scale(1.05);
-    }
+h1{font-size:2.6em}
 
-    .heart {
-      color: #FF69B4;
-      font-size: 2em;
-      animation: beat 1s infinite alternate;
-      margin-top: 20px;
-      transition: opacity 0.5s ease;
-    }
+/* ---------- SLIDE 1 ---------- */
+#slide1{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+  transition:opacity 1s ease, transform 1s ease;
+}
 
-    @keyframes beat {
-      from { transform: scale(1); }
-      to { transform: scale(1.3); }
-    }
+.card{
+  position:absolute;
+  background:#F8E6F8;
+  border:2px solid #D8BFD8;
+  border-radius:18px;
+  padding:25px;
+  font-size:1.3em;
+  opacity:0;
+  transform:scale(.5);
+  transition:.5s;
+}
+.card.show{opacity:1;transform:scale(1)}
 
-    /* First slide cards */
-    .card {
-      position: absolute;
-      background-color: #F8E6F8;
-      border: 2px solid #D8BFD8;
-      border-radius: 20px;
-      padding: 40px 30px;
-      font-size: 1.5em;
-      color: #4B0082;
-      box-shadow: 0 10px 30px rgba(75,0,130,0.2);
-      opacity: 0;
-      transform: scale(0.5);
-      transition: all 0.5s ease;
-      max-width: 80%;
-      text-align: left;
-    }
+/* ---------- SLIDE 2 ---------- */
+#slide2{
+  position:absolute;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  width:90%;
+  max-width:420px;
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity .8s ease, transform .8s ease;
+  pointer-events:none;
+}
 
-    .card.show {
-      opacity: 1;
-      transform: scale(1);
-    }
+#slide2.show{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
 
-    /* Second slide */
-    #secondSlide {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 30px;
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 0.8s ease;
-    }
+input{
+  padding:10px;
+  border-radius:10px;
+  border:2px solid #D8BFD8;
+  text-align:center;
+}
 
-    #secondSlide.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+.option{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  background:#F8E6F8;
+  padding:12px;
+  border-radius:12px;
+  border:2px dashed #D8BFD8;
+  cursor:pointer;
+}
 
-    #secondSlide input {
-      padding: 10px;
-      font-size: 1em;
-      border-radius: 10px;
-      border: 2px solid #D8BFD8;
-      text-align: center;
-      background-color: #F8E6F8;
-      color: #4B0082;
-    }
+.option input{accent-color:purple;transform:scale(1.2)}
 
-    /* Sticky note style */
-    .sticky-note {
-      background-color: #FFFACD;
-      border: 2px dashed #FFD700;
-      padding: 15px;
-      border-radius: 12px;
-      font-size: 1em;
-      text-align: left;
-      box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
-      position: relative;
-      cursor: grab;
-    }
+.option input:checked + span{
+  animation:bounce .4s;
+}
 
-    /* Third slide / envelope style */
-    #messageSlide {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
+@keyframes bounce{
+  0%{transform:scale(1)}
+  30%{transform:scale(1.15)}
+  60%{transform:scale(.95)}
+  100%{transform:scale(1)}
+}
 
-    #messageSlide.show {
-      opacity: 1;
-    }
+#errorMsg{opacity:0;color:red}
 
-    .envelope {
-      width: 400px;
-      max-width: 80%;
-      background-color: #F8E6F8;
-      border: 2px solid #D8BFD8;
-      border-radius: 12px;
-      position: relative;
-      padding-top: 90px; 
-      padding-bottom: 20px;
-      text-align: center;
-      box-shadow: 0 10px 20px rgba(75,0,130,0.2);
-      overflow: visible;
-      cursor: pointer;
-    }
+/* ---------- SLIDE 3 ---------- */
+#slide3{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transform:scale(.8);
+  transition:opacity 1s ease, transform 1s ease;
+  pointer-events:none;
+}
 
-    .flap {
-      position: absolute;
-      top: -60px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 80px;
-      background-color: #FFC0CB;
-      border-radius: 50%;
-      line-height: 80px;
-      font-size: 2em;
-      color: #800080;
-      box-shadow: 0 5px 10px rgba(75,0,130,0.2);
-      cursor: pointer;
-    }
+#slide3.show{
+  opacity:1;
+  transform:scale(1);
+  pointer-events:auto;
+}
 
-    .letter {
-      padding: 20px;
-      opacity: 0; 
-      transition: opacity 1s ease;
-    }
+/* ---------- ENVELOPE ---------- */
+.envelope{
+  width:90%;
+  max-width:420px;
+  background:#F8E6F8;
+  border:2px solid #D8BFD8;
+  border-radius:14px;
+  padding-top:90px;
+  position:relative;
+}
 
-    .envelope.open .letter {
-      opacity: 1;
-    }
+.flap{
+  position:absolute;
+  top:-60px;
+  left:50%;
+  transform:translateX(-50%);
+  width:80px;
+  height:80px;
+  background:#FFC0CB;
+  border-radius:50%;
+  font-size:2em;
+  line-height:80px;
+  cursor:pointer;
+}
 
-    #typewriterText {
-      font-family: 'Aphrodite Pro', cursive;
-      font-size: 12pt;
-      line-height: 1.6;
-      color: #4B0082;
-    }
+.letter{
+  opacity:0;
+  padding:20px;
+  transition:1s;
+}
 
-    /* Floating hearts */
-    .floating-heart {
-      position: absolute;
-      font-size: 1.5em;
-      animation: floatUp 4s linear forwards;
-      pointer-events: none;
-    }
+.envelope.open .letter{opacity:1}
 
-    @keyframes floatUp {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-400px) scale(1.5); opacity: 0; }
-    }
+.floating-heart{
+  position:absolute;
+  animation:float 4s linear forwards;
+}
+@keyframes float{
+  from{opacity:1;transform:translateY(0)}
+  to{opacity:0;transform:translateY(-400px)}
+}
 
-    /* Sparkles */
-    @keyframes sparkle {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
-    }
-    .sparkle {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background: #FFC0CB;
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: sparkle 2s infinite ease-in-out;
-    }
-  </style>
+@media(max-width:600px){
+  h1{font-size:2em}
+  button{width:100%}
+}
+</style>
 </head>
+
 <body>
+
+<!-- SLIDE 1 -->
+<div id="slide1">
   <h1>💜 Valentine Surprise 💜</h1>
-  <button id="startBtn">Click me for a surprise</button>
-  <div class="heart">💖</div>
+  <button id="startBtn">Click me 💖</button>
+</div>
 
-  <!-- First slide silly error cards -->
-  <div id="card1" class="card">❌ Error 404 – Love Not Found<br>Please check your heart connection</div>
-  <div id="card2" class="card">⚠️ Warning: Heart Overload Detected!<br>Cupid.exe might crash 💘</div>
-  <div id="card3" class="card">💾 Saving… your feelings…<br>Error: Too many butterflies! 💜</div>
+<div class="card" id="c1">❌ Error 404 – Love Not Found</div>
+<div class="card" id="c2">⚠️ Heart overload detected 💘</div>
+<div class="card" id="c3">💾 Too many butterflies!</div>
 
-  <!-- Second slide input + sticky note -->
-  <div id="secondSlide">
-    <div class="sticky-note">
-      💡 Write your answers here, then click submit!
-      but before you submit it send me a screent shot of your answer thankyou
+<!-- SLIDE 2 -->
+<div id="slide2">
+  <p>💌 Confirm our Valentine’s Date 💌</p>
+  <input id="date" placeholder="📅 Date">
+  <input id="time" placeholder="⏰ Time">
+
+  <p>📍 Around Quezon City (non-negotiable 😤)</p>
+
+  <label class="option">
+    <input type="radio" name="place" value="Samgyup + Coffee date">
+    <span>🥩 Samgyup + Coffee date</span>
+  </label>
+
+  <label class="option">
+    <input type="radio" name="place" value="Ramen + Coffee date">
+    <span>🍜 Ramen + Coffee date</span>
+  </label>
+
+  <label class="option">
+    <input type="radio" name="place" value="Apartment movie night">
+    <span>🏠 Food + coffee + movie 🎬</span>
+  </label>
+
+  <button onclick="goToSlide3()">Lock the Date 💘</button>
+  <div id="errorMsg">Fill everything first 😜</div>
+</div>
+
+<!-- SLIDE 3 -->
+<div id="slide3">
+  <div class="envelope">
+    <div class="flap" onclick="openLetter()">💜</div>
+    <div class="letter">
+      <p id="typewriter"></p>
     </div>
-    <input type="text" id="what" placeholder="What?">
-    <input type="text" id="when" placeholder="When?">
-    <input type="text" id="where" placeholder="Where?">
-    <button onclick="goToMessageSlide()">Submit</button>
-    <div id="errorMsg">❌ Please fill in all fields to proceed!</div>
   </div>
+</div>
 
-  <!-- Third slide / envelope -->
-  <div id="messageSlide">
-    <div class="envelope">
-      <div class="flap">💜</div>
-      <div class="letter">
-        <p id="typewriterText"></p>
-      </div>
-    </div>
-  </div>
+<script>
+const startBtn=document.getElementById("startBtn");
+const slide1=document.getElementById("slide1");
+const slide2=document.getElementById("slide2");
+const slide3=document.getElementById("slide3");
+const errorMsg=document.getElementById("errorMsg");
+const typewriter=document.getElementById("typewriter");
 
-  <script>
-    const startBtn = document.getElementById('startBtn');
-    const secondSlide = document.getElementById('secondSlide');
-    const messageSlide = document.getElementById('messageSlide');
-    const h1 = document.querySelector('h1');
-    const heart = document.querySelector('.heart');
-    const errorMsg = document.getElementById('errorMsg');
-    const flap = document.querySelector('.flap');
-    const envelope = document.querySelector('.envelope');
-    const typewriterText = document.getElementById('typewriterText');
+let chosenDate="",chosenTime="",chosenPlace="";
+let text="",i=0;
 
-    const message = `Hi babi. I just want you to know how grateful I am to have you in my life. I never thought there would still be someone who could truly accept me — my past, my flaws, and everything that comes with who I am. But you set all of that aside because you genuinely wanted to know me, the real me.
+startBtn.onclick=()=>{
+  const cards=[c1,c2,c3];
+  cards.forEach((c,i)=>{
+    setTimeout(()=>c.classList.add("show"),i*700);
+    setTimeout(()=>c.classList.remove("show"),2400+i*700);
+  });
 
-Honestly, I didn't even think I would fall in love again. I was scared. I felt like I was too risky, too hard to handle. But with you, everything feels different. I can't even explain it — things just felt easier, lighter, and safer.
+  setTimeout(()=>{
+    slide1.style.opacity=0;
+    slide1.style.transform="translateY(-40px)";
+  },3000);
 
-Thank you for understanding me, for loving me, and for taking care of me. Every little thing you do means so much to me, and it makes me genuinely happy. I promise I don't take any of this for granted. 💖
+  setTimeout(()=>{
+    slide1.style.display="none";
+    slide2.classList.add("show");
+  },3800);
+};
+
+function goToSlide3(){
+  const date=document.getElementById("date").value.trim();
+  const time=document.getElementById("time").value.trim();
+  const place=document.querySelector("input[name='place']:checked");
+  if(!date||!time||!place){errorMsg.style.opacity=1;return}
+
+  chosenDate=date; chosenTime=time; chosenPlace=place.value;
+
+  slide2.classList.remove("show");
+  setTimeout(()=>slide3.classList.add("show"),600);
+}
+
+function openLetter(){
+  document.querySelector(".envelope").classList.add("open");
+  text=`Hi babi 💜
+
+We’re officially going on a Valentine’s date on ${chosenDate} at ${chosenTime}.
+And yes… ${chosenPlace}. 😌
+
+Hi babi 💜
+
+I just want you to know how grateful I am to have you in my life.
+I never thought there would still be someone who could truly accept me —
+my past, my flaws, and everything that comes with who I am.
+But you set all of that aside because you genuinely wanted to know me,
+the real me.
+
+Honestly, I didn’t even think I would fall in love again.
+I was scared.
+I felt like I was too risky, too hard to handle.
+But with you, everything feels different.
+I can’t even explain it —
+things just feel easier, lighter, and safer.
+
+Thank you for understanding me,
+for loving me,
+and for taking care of me.
+Every little thing you do means so much to me,
+and it makes me genuinely happy.
+I promise I don’t take any of this for granted. 💖
 
 Sincerely yours,
-KID`;
+KID💜`;
+  type();
+  hearts();
+}
 
-    startBtn.addEventListener('click', showSurprise);
+function type(){
+  if(i<text.length){
+    typewriter.innerHTML+=text.charAt(i).replace("\n","<br>");
+    i++;
+    setTimeout(type,25);
+  }
+}
 
-    function showSurprise() {
-      startBtn.style.display = 'none';
-      const cards = [document.getElementById('card1'), document.getElementById('card2'), document.getElementById('card3')];
-      cards.forEach((card, index) => {
-        setTimeout(() => { card.style.top = `${50 + index*30}px`; card.style.left = `${50 + index*20}px`; card.classList.add('show'); }, index * 1000);
-        setTimeout(() => { card.classList.remove('show'); }, 2500 + index * 1000);
-      });
-      setTimeout(() => { h1.style.opacity = 0; heart.style.opacity = 0; }, 3500);
-      setTimeout(() => { secondSlide.classList.add('show'); }, 4500);
-    }
+function hearts(){
+  for(let i=0;i<25;i++){
+    const h=document.createElement("div");
+    h.className="floating-heart";
+    h.innerText="💖";
+    h.style.left=Math.random()*innerWidth+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),4000);
+  }
+}
+</script>
 
-    function goToMessageSlide() {
-      const what = document.getElementById('what').value.trim();
-      const when = document.getElementById('when').value.trim();
-      const where = document.getElementById('where').value.trim();
-
-      if (!what || !when || !where) { errorMsg.style.opacity = 1; return; }
-      errorMsg.style.opacity = 0;
-
-      secondSlide.style.transition = "opacity 0.8s ease";
-      secondSlide.style.opacity = 0;
-      setTimeout(() => {
-        secondSlide.style.display = "none";
-        messageSlide.classList.add('show');
-      }, 800);
-    }
-
-    let index = 0;
-    function typeWriter() {
-      if (index < message.length) {
-        typewriterText.innerHTML += message.charAt(index).replace(/\n/g,'<br>');
-        index++;
-        setTimeout(typeWriter, 25);
-      }
-    }
-
-    flap.addEventListener('click', () => {
-      envelope.classList.add('open');
-      typeWriter();
-      launchHearts();
-    });
-
-    function launchHearts() {
-      const colors = ['#FF69B4','#FFC0CB','#FFB6C1','#FF1493'];
-      for (let i = 0; i < 30; i++) {
-        const heartEl = document.createElement('div');
-        heartEl.classList.add('floating-heart');
-        heartEl.style.left = Math.random() * window.innerWidth + 'px';
-        heartEl.style.fontSize = (10 + Math.random()*20) + 'px';
-        heartEl.style.color = colors[Math.floor(Math.random()*colors.length)];
-        heartEl.textContent = '💖';
-        document.body.appendChild(heartEl);
-        setTimeout(() => heartEl.remove(), 4000);
-      }
-    }
-
-    // Sparkles
-    for(let i=0;i<50;i++){
-      const sparkle = document.createElement('div');
-      sparkle.classList.add('sparkle');
-      sparkle.style.top = Math.random()*window.innerHeight+'px';
-      sparkle.style.left = Math.random()*window.innerWidth+'px';
-      sparkle.style.width = sparkle.style.height = (2+Math.random()*3)+'px';
-      sparkle.style.animationDelay = Math.random()*3+'s';
-      document.body.appendChild(sparkle);
-    }
-  </script>
 </body>
 </html>
